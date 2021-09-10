@@ -1,0 +1,13 @@
+[
+  {
+    "name" : "Flat",
+    "base_path" : "./test_data/dst/",
+    "dynamic_bp_suffix" : ""
+  },
+
+  {
+    "name" : "Deep",
+    "base_path" : "./test_data/dst/",
+    "dynamic_bp_suffix" : "%year%/%month%/"
+  }
+]

@@ -1,0 +1,17 @@
+[Unit]
+Description=Filebase Service
+After=multi-user.target
+
+[Service]
+User=pi
+Type=idle
+WorkingDirectory=/home/pi/filebase/
+ExecStart=/home/pi/filebase/target/release/filebase
+
+Restart=always
+RestartSec=10
+StartLimitBurst=5
+StartLimitInterval=100
+
+[Install]
+WantedBy=multi-user.target

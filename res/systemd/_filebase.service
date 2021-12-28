@@ -8,7 +8,7 @@ Type=idle
 WorkingDirectory=/home/pi/filebase/
 ExecStart=/home/pi/filebase/target/release/filebase
 
-Restart=always
+Restart=on-failure
 RestartSec=10
 StartLimitBurst=5
 StartLimitInterval=100

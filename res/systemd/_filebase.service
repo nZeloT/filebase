@@ -6,12 +6,10 @@ After=multi-user.target
 User=pi
 Type=idle
 WorkingDirectory=/home/pi/filebase/
-ExecStart=/home/pi/filebase/target/release/filebase
+ExecStart=/home/pi/filebase/target/release/filebase /mnt/data/.filebase
 
 Restart=on-failure
 RestartSec=10
-StartLimitBurst=5
-StartLimitInterval=100
 
 [Install]
 WantedBy=multi-user.target

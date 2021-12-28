@@ -62,6 +62,13 @@ pub async fn handle_discard_items(fs: FileSystem, body: DiscardMediaItems) -> Re
     }
 }
 
+pub async fn handle_discard_all(fs: FileSystem) -> Result<impl warp::Reply, std::convert::Infallible> {
+    match fs.discard_all().await {
+        Ok(_) => Ok(reply("".to_string().into_bytes(), TEXT_PLN, StatusCode::OK)),
+        Err(e) => Ok(reply(json(&e), APPL_JSON, StatusCode::INTERNAL_SERVER_ERROR))
+    }
+}
+
 pub async fn handle_confirm_items(fs: FileSystem, body: ConfirmMediaItems) -> Result<impl warp::Reply, std::convert::Infallible> {
     match fs.confirm(&body.destination, body.ids).await {
         Ok(_) => Ok(reply("".to_string().into_bytes(), TEXT_PLN, StatusCode::OK)),

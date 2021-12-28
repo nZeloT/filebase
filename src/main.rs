@@ -67,6 +67,7 @@ mod filters {
                     .or(load_image(fs.clone()))
                     .or(confirm_images(fs.clone()))
                     .or(discard_images(fs.clone()))
+                    .or(discard_all(fs.clone()))
                     .or(list_destinations(fs))
             )
     }
@@ -101,6 +102,13 @@ mod filters {
             .and(with_fs(fs))
             .and(warp::body::json())
             .and_then(api_handler::handle_discard_items)
+    }
+
+    fn discard_all(fs: file_system::FileSystem) -> impl warp::Filter<Extract=impl warp::Reply, Error=warp::Rejection> + Clone {
+        warp::path!("items" / "discard_all")
+            .and(warp::post())
+            .and(with_fs(fs))
+            .and_then(api_handler::handle_discard_all)
     }
 
     fn list_destinations(fs : FileSystem) -> impl warp::Filter<Extract=impl warp::Reply, Error=warp::Rejection> + Clone {

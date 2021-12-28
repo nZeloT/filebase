@@ -18,6 +18,7 @@
 			<button id="confirm_{d.id}" class="confirmButton" on:click={confirm}>{d.name}</button>
 		{/each}
 		<button id="discard" on:click={discardSelection}>Discard</button>
+		<button id="discard_all" on:click={discardAll}>Discard All</button>
 	</div>
 </div>
 <div class="content">
@@ -95,14 +96,14 @@
 		display: inline-block;
 	}
 
-	#discard {
+	#discard, #discard_all {
 		margin-left: 32px;
 		margin-right: 24px;
 		background-color: darkred;
 		border: 1px solid darkmagenta;
 	}
 
-	#discard:hover {
+	#discard:hover, #discard_all:hover {
 		background-color: red;
 	}
 
@@ -223,6 +224,25 @@
 			const errors = await response.json();
 			console.error(errors);
 			errorMsg = 'Received Errors. Reload.';
+		}
+	}
+
+	async function discardAll() {
+		const response = await fetch('/api/v1/items/discard_all', {
+			method: 'POST',
+			cache: 'no-cache',
+		});
+		if (response.ok) {
+			console.log("Successfully discarded all items!");
+			itemCount = 0;
+			selectedIds = [];
+			selectedCnt = 0;
+			items = [];
+		}else{
+			console.log(response.body);
+			const errors = await response.json();
+			console.error(errors);
+			errorMsg = "Received Errors. Reload.";
 		}
 	}
 

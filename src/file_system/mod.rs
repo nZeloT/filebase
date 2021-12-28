@@ -85,6 +85,10 @@ impl FileSystem {
         self.0.write().await.discard(ids).await
     }
 
+    pub async fn discard_all(&self) -> Result<()> {
+        self.0.write().await.discard_all().await
+    }
+
     pub async fn confirm(&self, destination_id: &u64, ids: Vec<u64>) -> Result<()> {
         self.0.write().await.confirm(destination_id, ids).await
     }
@@ -125,6 +129,17 @@ impl FileSystemInternal {
             Ok(())
         } else {
             Err(FileSystemError::MultipleErrors(failures))
+        }
+    }
+
+    pub async fn discard_all(&self) -> Result<()> {
+        println!("Trying to discard all known items sequentially!");
+        match self.storage.list_files().await {
+            Ok(metas) => {
+                let ids = metas.iter().map(|m| m.id).collect::<Vec<u64>>();
+                self.discard(ids).await
+            },
+            Err(e) => Err(e)
         }
     }
 
